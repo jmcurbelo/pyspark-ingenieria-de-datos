@@ -2,20 +2,20 @@
 
 !apt-get install openjdk-8-jdk-headless -qq > /dev/null
 
-# Descargar Spark 3.1.2
+# Descargar Spark 3.2.2
 
-!wget -q http://apache.osuosl.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz
+!wget -q http://apache.osuosl.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz
 
 # Descomprimir el archivo descargado de Spark
 
-!tar xf spark-3.1.2-bin-hadoop3.2.tgz
+!tar xf spark-3.2.2-bin-hadoop3.2.tgz
 
 # Establecer la variables de entorno
 
 import os
 
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-3.1.2-bin-hadoop3.2"#!/usr/bin/env 
+os.environ["SPARK_HOME"] = "/content/spark-3.2.2-bin-hadoop3.2"
 
 # Instalar la librería findspark 
 
