@@ -10,7 +10,7 @@
 
 !tar xf spark-3.2.2-bin-hadoop3.2.tgz
 
-# Establecer la variables de entorno
+# Establecer las variables de entorno
 
 import os
 
