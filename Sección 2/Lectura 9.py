@@ -4,18 +4,18 @@
 
 # Descargar Spark 3.2.2
 
-!wget -q http://apache.osuosl.org/spark/spark-3.2.2/spark-3.2.2-bin-hadoop3.2.tgz
+!wget -q http://apache.osuosl.org/spark/spark-3.2.3/spark-3.2.3-bin-hadoop3.2.tgz
 
 # Descomprimir el archivo descargado de Spark
 
-!tar xf spark-3.2.2-bin-hadoop3.2.tgz
+!tar xf spark-3.2.3-bin-hadoop3.2.tgz
 
 # Establecer las variables de entorno
 
 import os
 
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-3.2.2-bin-hadoop3.2"
+os.environ["SPARK_HOME"] = "/content/spark-3.2.3-bin-hadoop3.2"
 
 # Instalar la librería findspark 
 
