@@ -11,35 +11,29 @@ def cubo(n):
 
 from pyspark.sql.types import LongType
 
-spark.udf.register('cubo', cubo, LongType())
+spark.udf.register('cubo', f_cubo, LongType())
 
-df = spark.range(1, 10)
+spark.range(1,10).createOrReplaceTempView('df_temp')
 
-from pyspark.sql.functions import col
+spark.sql("SELECT id, cubo(id) AS cubo FROM df_temp").show()
 
-df.show()
+def bienvenida(nombre):
+    return ('Hola {}'.format(nombre))
 
-df.select(
-    col('id'),
-    cubo(col('id')).alias('cubo')
-).show()
-
-def binvenida(nombre):
-    return('Hola {}'.format(nombre))
-
-from pyspark.sql.functions import
-
+from pyspark.sql.functions import udf
 from pyspark.sql.types import StringType
 
-binvenida_udf = udf(lambda x: binvenida(x), StringType())
+bienvenida_udf = udf(lambda x: bienvenida(x), StringType())
 
-df_nombre = spark.createDataFrame([('Jose',), ('Julia',), ('Katia',)], ['nombre'])
+df_nombre = spark.createDataFrame([('Jose',), ('Julia',)], ['nombre'])
 
 df_nombre.show()
 
+from pyspark.sql.functions import col
+
 df_nombre.select(
     col('nombre'),
-    binvenida_udf(col('nombre')).alias('bienvenida')
+    bienvenida_udf(col('nombre')).alias('bie_nombre')
 ).show()
 
 @udf(returnType=StringType())
@@ -48,5 +42,25 @@ def mayuscula(s):
 
 df_nombre.select(
     col('nombre'),
-    mayuscula(col('nombre')).alias('mayuscula')
+    mayuscula(col('nombre')).alias('may_nombre')
+).show()
+
+import pandas as pd
+
+from pyspark.sql.functions import pandas_udf
+
+def cubo_pandas(a: pd.Series) -> pd.Series:
+    return a * a * a
+
+cubo_udf = pandas_udf(cubo_pandas, returnType=LongType())
+
+x = pd.Series([1, 2, 3])
+
+print(cubo_pandas(x))
+
+df = spark.range(5)
+
+df.select(
+    col('id'),
+    cubo_udf(col('id')).alias('cubo_pandas')
 ).show()
