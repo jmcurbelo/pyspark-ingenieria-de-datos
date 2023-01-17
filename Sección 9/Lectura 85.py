@@ -6,24 +6,35 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
 
+df = spark.read.parquet('./data/')
+
+df.show()
+
 from pyspark.sql.window import Window
-from pyspark.sql.functions import row_number
+from pyspark.sql.functions import desc, row_number, rank, dense_rank, col
 
-data = spark.read.parquet('./data/')
+windowSpec = Window.partitionBy('departamento').orderBy(desc('evaluacion'))
 
-data.show()
+# row_number
 
-windowSpec = Window.partitionBy('departamento').orderBy('puntos')
+df.withColumn('row_number', row_number().over(windowSpec)).filter(col('row_number').isin(1,2)).show()
 
-data.withColumn('row_number', row_number().over(windowSpec)).show(truncate=False)
+# rank
+
+df.withColumn('rank', rank().over(windowSpec)).show()
+
+# dense_rank
+
+df.withColumn('dense_rank', dense_rank().over(windowSpec)).show()
+
+# Agregaciones con especificaciones de ventana
 
 windowSpecAgg = Window.partitionBy('departamento')
 
-from pyspark.sql.functions import min, max, avg, col
+from pyspark.sql.functions import min, max, avg
 
-(data.withColumn('row_number', row_number().over(windowSpec))
-    .withColumn('min', min(col('puntos')).over(windowSpecAgg))
-    .withColumn('max', max(col('puntos')).over(windowSpecAgg))
-    .withColumn('avg', avg(col('puntos')).over(windowSpecAgg))
-).where(col('row_number') == 1).select('departamento', 'min', 'max', 'avg').show()
-
+(df.withColumn('min', min(col('evaluacion')).over(windowSpecAgg))
+.withColumn('max', max(col('evaluacion')).over(windowSpecAgg))
+.withColumn('avg', avg(col('evaluacion')).over(windowSpecAgg))
+.withColumn('row_number', row_number().over(windowSpec))
+ ).show()
