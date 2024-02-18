@@ -4,7 +4,7 @@
 
 # Descargar Spark 3.4.2
 
-!wget -q http://apache.osuosl.org/spark/spark-3.4.2/spark-3.4.2-bin-hadoop3.tgz
+!wget -q https://archive.apache.org/dist/spark/spark-3.4.2/spark-3.4.2-bin-hadoop3.tgz
 
 # Descomprimir el archivo descargado de Spark
 
