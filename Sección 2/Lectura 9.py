@@ -1,23 +1,23 @@
-# Instalar SDK Java 8
+# Instalar SDK java 17
 
-!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!apt-get install openjdk-17-jdk-headless -qq > /dev/null
 
-# Descargar Spark 3.4.3
+# Descargar Spark 4.0.1
 
-!wget -q https://archive.apache.org/dist/spark/spark-3.4.3/spark-3.4.3-bin-hadoop3.tgz
+!wget -q https://downloads.apache.org/spark/spark-4.0.1/spark-4.0.1-bin-hadoop3.tgz
 
-# Descomprimir el archivo descargado de Spark
+# Descomprimir la version de Spark
 
-!tar xf spark-3.4.3-bin-hadoop3.tgz 
+!tar xf spark-4.0.1-bin-hadoop3.tgz
 
 # Establecer las variables de entorno
 
 import os
 
-os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-3.4.3-bin-hadoop3"
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
+os.environ["SPARK_HOME"] = "/content/spark-4.0.1-bin-hadoop3"
 
-# Instalar la librería findspark 
+# Instalar la librería findspark
 
 !pip install -q findspark
 
@@ -25,7 +25,7 @@ os.environ["SPARK_HOME"] = "/content/spark-3.4.3-bin-hadoop3"
 
 !pip install -q pyspark
 
-### verificar la instalación ###
+# Verificar la instalación
 
 import findspark
 
@@ -36,6 +36,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.master("local[*]").getOrCreate()
 
 # Probando la sesión de Spark
+
 df = spark.createDataFrame([{"Hola": "Mundo"} for x in range(10)])
 
 df.show(10, False)
