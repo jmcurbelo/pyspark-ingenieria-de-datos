@@ -4,18 +4,18 @@
 
 # Descargar Spark 4.0.1
 
-!wget -q https://downloads.apache.org/spark/spark-4.0.1/spark-4.0.1-bin-hadoop3.tgz
+!wget -q https://downloads.apache.org/spark/spark-4.0.2/spark-4.0.2-bin-hadoop3.tgz
 
 # Descomprimir la version de Spark
 
-!tar xf spark-4.0.1-bin-hadoop3.tgz
+!tar xf spark-4.0.2-bin-hadoop3.tgz
 
 # Establecer las variables de entorno
 
 import os
 
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-4.0.1-bin-hadoop3"
+os.environ["SPARK_HOME"] = "/content/spark-4.0.2-bin-hadoop3"
 
 # Instalar la librería findspark
 
