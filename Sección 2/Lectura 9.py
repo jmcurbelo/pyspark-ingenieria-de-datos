@@ -1,39 +1,29 @@
-# Instalar SDK java 17
-
-!apt-get install openjdk-17-jdk-headless -qq > /dev/null
-
-# Descargar Spark 4.0.1
-
-!wget -q https://downloads.apache.org/spark/spark-4.0.2/spark-4.0.2-bin-hadoop3.tgz
-
-# Descomprimir la version de Spark
-
-!tar xf spark-4.0.2-bin-hadoop3.tgz
-
-# Establecer las variables de entorno
+# Configurar Java
+# Google Colab ya incluye Java preinstalado (actualmente Java 21, compatible con Spark 4.x).
+# Detectamos su ubicación automáticamente para no depender de una versión concreta.
 
 import os
+import subprocess
 
-os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-17-openjdk-amd64"
-os.environ["SPARK_HOME"] = "/content/spark-4.0.2-bin-hadoop3"
+java_bin = subprocess.check_output(["readlink", "-f", "/usr/bin/java"]).decode().strip()
+os.environ["JAVA_HOME"] = java_bin.replace("/bin/java", "")
 
-# Instalar la librería findspark
+# Instalar Spark
+# El paquete pyspark de PyPI ya incluye Spark completo, así que no hace falta descargar
+# el archivo .tgz desde la web de Apache (esos enlaces dejan de funcionar con cada versión nueva).
 
-!pip install -q findspark
+SPARK_VERSION = "4.0.2"
 
-# Instalar pyspark
-
-!pip install -q pyspark
+!pip install -q pyspark=={SPARK_VERSION}
 
 # Verificar la instalación
-
-import findspark
-
-findspark.init()
 
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.master("local[*]").getOrCreate()
+
+print("Versión de Spark:", spark.version)
+print("JAVA_HOME:", os.environ["JAVA_HOME"])
 
 # Probando la sesión de Spark
 
